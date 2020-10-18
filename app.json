@@ -1,12 +1,14 @@
 {
-  "name": "TestProject",
-  "displayName": "TestProject",
   "expo": {
-    "name": "TestProject",
-    "slug": "TestProject",
+    "name": "UberTodo",
+    "slug": "UberTodo",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "android": {
+      "package": "com.krisztianszabo.ubertodo",
+      "versionCode": 1
+    }
   }
 }
