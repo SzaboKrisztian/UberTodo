@@ -81,28 +81,27 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     inputContainer: {
-        flexGrow: 1,
+        flex: 1,
         // backgroundColor: '#99f',
         marginHorizontal: 5,
         flexDirection: 'column'
     },
     input: {
-        flexGrow: 0,
-        flexShrink: 0
+        flex: 0
     },
     clear: {
         // backgroundColor: '#ff9',
         flexGrow: 0,
-        marginRight: 10
-    },
-    clearText: {
+        marginRight: 10,
         borderWidth: 1,
         borderRadius: 50,
         borderColor: '#999999',
-        color: '#999999',
-        paddingHorizontal: 5,
+        paddingHorizontal: 5
+    },
+    clearText: {
         textAlign: 'center',
-        textAlignVertical: 'center'
+        color: '#999999',
+        textAlignVertical: 'center',
     },
     button: {
         paddingVertical: 8,

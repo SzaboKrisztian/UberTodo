@@ -11,30 +11,10 @@ const DATA_KEY = 'todo-data';
 const loadData = async () => {
     try {
         const jsonValue = await AsyncStorage.getItem(DATA_KEY);
-        return Promise.resolve(jsonValue != null ? JSON.parse(jsonValue) : generateStartingData());
+        return Promise.resolve(jsonValue != null ? JSON.parse(jsonValue) as Todo[] : [] as Todo[]);
     } catch (e) {
-        return Promise.resolve(generateStartingData());
+        return Promise.resolve([] as Todo[]);
     }
-}
-
-const generateStartingData = (): Todo[] => {
-    return [
-        {
-            id: 0,
-            description: 'Buy eggs',
-            completed: true,
-        },
-        {
-            id: 1,
-            description: 'Make omelette',
-            completed: false,
-        },
-        {
-            id: 2,
-            description: 'Take over the world',
-            completed: false,
-        },
-    ];
 }
 
 export default function App() {
@@ -43,8 +23,8 @@ export default function App() {
 
     useEffect(() => {
         const assignData = async () => {
-            const loadedData = await loadData();
-            setData(loadedData);
+            const loadedData: Todo[] = await loadData();
+            await setData(loadedData);
         }
         assignData()
             .then(() => {
@@ -77,22 +57,10 @@ export default function App() {
     }
 
     const storeData = async (data: Todo[]) => {
-        // let numRetries = 0;
         try {
             const jsonValue = JSON.stringify(data);
             await AsyncStorage.setItem(DATA_KEY, jsonValue);
         } catch (e) {
-            // if (numRetries < 1) {
-            //     AsyncStorage.removeItem(DATA_KEY)
-            //         .then(() => {
-            //         })
-            //         .catch(() => {
-            //         })
-            //         .finally(() => {
-            //             numRetries += 1;
-            //             storeData(data);
-            //         });
-            // }
         }
     }
 
@@ -127,8 +95,10 @@ export default function App() {
                 </TouchableOpacity>
             </View>
             { data.length === 0 ?
-                <Text style={ styles.listPlaceholder }>So much empty! Add your first todo by typing in the box
-                    below.</Text> :
+                <View style={ styles.listPlaceholderContainer }>
+                    <Text style={ styles.listPlaceholder }>So much empty! Add your first todo by typing in the box
+                    below.</Text>
+                </View> :
                 <TodoList data={ data } style={ styles.list } changeCompleted={ updateItem }/>
             }
             <NewTodo saveItem={ addTodo } style={ styles.input }/>
@@ -141,12 +111,11 @@ const styles = StyleSheet.create({
         paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
         flex: 1,
         backgroundColor: '#fff',
-        alignItems: 'flex-start',
+        alignItems: 'stretch',
         justifyContent: 'center',
-        padding: 8
+        margin: 8
     },
     headerContainer: {
-        alignSelf: 'stretch',
         margin: 16,
         flexGrow: 0,
         flexShrink: 0
@@ -163,12 +132,14 @@ const styles = StyleSheet.create({
         right: 0
     },
     list: {
-        flexGrow: 1
+        flexGrow: 1,
+        alignSelf: 'stretch'
+    },
+    listPlaceholderContainer: {
+        flexGrow: 1,
+        justifyContent: 'center'
     },
     listPlaceholder: {
-        flexGrow: 1,
-        alignSelf: 'stretch',
-        textAlignVertical: 'center',
         textAlign: 'center',
         fontSize: 18,
         color: '#666'

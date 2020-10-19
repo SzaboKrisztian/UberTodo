@@ -19,7 +19,7 @@ export const TodoList = (props: Props) => {
             style={ [props.style, styles.list] }
             data={ sort(props.data) }
             renderItem={({ item }) => <TodoItem data={ item } changeCompleted={ props.changeCompleted }/> }
-            keyExtractor={(item, index) => item.id.toString() }/>
+            keyExtractor={(item) => item.id.toString() }/>
     );
 }
 
